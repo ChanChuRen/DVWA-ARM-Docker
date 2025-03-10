@@ -1,0 +1,21 @@
+name: dvwa-project
+
+services:
+  dvwa:
+    image: ubuntu:22.04
+    container_name: dvwa
+    privileged: true
+    ports:
+      - "8800:80"
+    volumes:
+      - ./dvwa.sh:/root/dvwa.sh
+    command: >
+      bash -c "export DEBIAN_FRONTEND=noninteractive && 
+      ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && 
+      chmod +x /root/dvwa.sh && 
+      /root/dvwa.sh && 
+      tail -f /dev/null"
+    environment:
+      - TZ=Asia/Shanghai
+      - DEBIAN_FRONTEND=noninteractive
+    restart: unless-stopped
